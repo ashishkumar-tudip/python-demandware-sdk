@@ -5,7 +5,6 @@ import re
 from setuptools import setup, find_packages
 
 import dw
-#exec(open('dw/__init__.py').read())
 
 setup(
     name = 'dw',

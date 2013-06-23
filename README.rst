@@ -10,7 +10,7 @@ Installation
 -------------
 ::
 
-    $ pip install dw --upgrade
+    $ pip install https://github.com/weareconflict/python-demandware-sdk/tarball/master
 
 
 Basic usage

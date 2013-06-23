@@ -19,6 +19,7 @@ Basic usage
 
     from dw.client import Demandware
 
+    # Set a config file
     DW_API = {
         'client_id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         'hostname': 'changeme.demandware.net',
@@ -26,8 +27,10 @@ Basic usage
         'version': 'v13_1',
     }
 
+    # Instance a client
     conn = Demandware(DW_API)
 
+    # Make an API call
     product = conn.get_product('008884303989')
     print product.name
 
@@ -55,6 +58,8 @@ Ensure
 Run
 
     $ python setup.py nosetests --tests tests
+    
+or
 
     $ python setup.py nosetests --verbosity=4 --detailed-errors --tests tests
 
@@ -70,7 +75,7 @@ Need to install plugin
 
 Run
 
-    $ python setup.py nosetests --verbosity=4 --detailed-errors --tests tests
+    $ python setup.py nosetests --tests tests --with-coverage --cover-html --cover-html-dir=coverage/html
 
 
 Developers: Generate documentation
@@ -92,3 +97,8 @@ Contributors
 
 * Moises Brenes <https://github.com/gin>
 * Conflict <https://github.com/weareconflict>
+
+Documentation
+-------------
+
+* http://dw.readthedocs.org/

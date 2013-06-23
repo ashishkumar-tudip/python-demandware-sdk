@@ -1,0 +1,43 @@
+{
+"settings": {
+    "ok_valid": {
+        "client_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hostname": "changeme.demandware.net",
+        "site": "SiteGenesis",
+        "version": "v13_1"
+    },
+    "bad_missed": {
+        "client_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hostname": "x.demandware.net",
+        "site": "SiteGenesis"
+    },
+    "bad_invalid": {
+        "client_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hostname": "x.demandware.net",
+        "extra": "parameter",
+        "site": "SiteGenesis",
+        "version": "v13_1"
+    }
+},
+"payload": {
+    "general": [
+        {"key": "User-Agent", "value": "user-agent"},
+        {"key": "format", "value": "json"}
+    ],
+    "products": [
+        {"id": "apple-ipod-classic", "name": "Apple iPod Classic"},
+        {"id": "apple-ipod-nano", "name": "Apple iPod Nano"}
+    ],
+    "search": [
+        {"query": "ipod", "count": 1},
+        {"query": "shirt", "count": 3}
+    ],
+    "category": [
+        {"category": "mens", "levels": 1}
+    ],
+    "account": [
+        {"username": "tester", "password": "1234"},
+        {"username": "bad", "password": "1234"}
+    ]
+}
+}

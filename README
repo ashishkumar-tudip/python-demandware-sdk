@@ -1,0 +1,94 @@
+Python Demandware SDK
+========
+
+Description
+-----------
+Python Demandware SDK provides access to the OCAPI services.
+https://documentation.demandware.com/display/DOC131/Open+Commerce+API
+
+Installation
+-------------
+::
+
+    $ pip install dw --upgrade
+
+
+Basic usage
+-----------
+::
+
+    from dw.client import Demandware
+
+    DW_API = {
+        'client_id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        'hostname': 'changeme.demandware.net',
+        'site': 'SiteGenesis',
+        'version': 'v13_1',
+    }
+
+    conn = Demandware(DW_API)
+
+    product = conn.get_product('008884303989')
+    print product.name
+
+
+Developers: Running tests
+-----------
+::
+
+Need to install nose
+
+    $ pip install nose
+
+
+Rename client.json.template
+
+    $ cp tests/fixtures/client.json.template tests/fixtures/client.json
+
+
+Ensure
+
+    Settings/key: ok_valid in tests/client.json are correct
+    User tester@weareconflict.com exists, after run tests you can delete it
+
+
+Run
+
+    $ python setup.py nosetests --tests tests
+
+    $ python setup.py nosetests --verbosity=4 --detailed-errors --tests tests
+
+
+Developers: Running coverage
+-----------
+::
+
+Need to install plugin
+
+    $ pip install coverage
+
+
+Run
+
+    $ python setup.py nosetests --verbosity=4 --detailed-errors --tests tests
+
+
+Developers: Generate documentation
+-----------
+::
+
+Need to install sphinx
+
+    $ pip install sphinx
+
+
+Run
+
+    $ sphinx-build -b html -c docs/source docs/source docs/build
+
+
+Contributors
+-------------
+
+* Moises Brenes <https://github.com/gin>
+* Conflict <https://github.com/weareconflict>

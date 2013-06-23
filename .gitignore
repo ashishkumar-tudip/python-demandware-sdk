@@ -1,0 +1,20 @@
+# Python files
+*.pyc
+*~
+dw.egg-info/
+
+# Eclipse files
+.project
+.pydevproject
+.settings/
+
+# Config files
+tests/fixtures/client.json
+
+# Coverage files
+.coverage
+coverage/
+
+# Documentation files
+docs/build/
+

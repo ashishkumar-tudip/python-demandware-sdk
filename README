@@ -58,10 +58,14 @@ Ensure
 Run
 
     $ python setup.py nosetests --tests tests
-    
+
 or
 
     $ python setup.py nosetests --verbosity=4 --detailed-errors --tests tests
+
+or run explicit test
+
+    $ python setup.py nosetests --tests tests.client_test:DemandwareTest.test_register_correct_user
 
 
 Developers: Running coverage

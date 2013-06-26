@@ -25,6 +25,7 @@ class DemandwareTest(TestCase):
         self.search = defaults['payload']['search']
         self.category = defaults['payload']['category']
         self.account = defaults['payload']['account']
+        self.register = defaults['payload']['register']
 
     def test_defaults(self):
         """Verify settings and instance data."""
@@ -212,6 +213,28 @@ class DemandwareTest(TestCase):
 
         # Compare response
         self.assertNotEqual(hasattr(customer, 'customer_no'), True)
+
+    def test_register_correct_user(self):
+        """Verify that register an profile correctly."""
+        conn = Demandware(self.SETTINGS_OK_VALID)
+
+        # Check valid register
+        user = conn.register(self.register[0]['username'], self.register[0]['password'], self.register[0]['profile'])
+        conn.logout()
+
+        # Compare response
+        self.assertEqual(hasattr(user, 'email'), True)
+
+    def test_register_wrong_user(self):
+        """Verify that register an profile correctly."""
+        conn = Demandware(self.SETTINGS_OK_VALID)
+
+        # Check valid register
+        user = conn.register(self.register[1]['username'], self.register[1]['password'], self.register[1]['profile'])
+        conn.logout()
+
+        # Compare response
+        self.assertNotEqual(hasattr(user, 'email'), True)
 
     def test_get_basket(self):
         """Verify requests that gets basket."""

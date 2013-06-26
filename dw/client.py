@@ -212,6 +212,7 @@ class Demandware(object):
         Args:
 
         ``key``: String that represents key in HEADERS parameters.
+
         ``value``: Value to be saved.
 
         """
@@ -236,6 +237,7 @@ class Demandware(object):
         Args:
 
         ``key``: String that represents key in POST parameters.
+
         ``value``: Value to be saved.
 
         """
@@ -352,6 +354,7 @@ class Demandware(object):
         Args:
 
         ``ids``: String o Array of Strings that represents SKU of a product.
+
         ``arrayify``: Boolean thats indicate if a single product should be returned in a List.
 
         Returns:
@@ -436,6 +439,39 @@ class Demandware(object):
         if self.__last_call.response.info.code == httplib.OK:
             return self.__last_call.response.body
 
+    def register(self, username, password, profile={}):
+        """
+        Action to register an account.
+
+        Args:
+
+        ``username``: String, account username.
+
+        ``password:``: String, account password.
+
+        ``profile:``: Dictionary, profile properties.
+
+        Returns:
+
+        Returns the account profile object, if an error occur then None.
+
+        https://documentation.demandware.com/display/DOC131/Account+resource#Accountresource-Registeraccount
+
+        """
+        self.__secure = True
+        self.__method = 'POST'
+
+        self.set_header('Content-Type', 'application/json')
+        self.set_post('credentials', {
+            'username': str(username),
+            'password': str(password)
+        })
+        self.set_post('profile', profile)
+        self._call('account/register')
+
+        if self.__last_call.response.info.code == httplib.OK:
+            return self.__last_call.response.body
+
     def login(self, username, password):
         """
         Action to login a customer.
@@ -443,6 +479,7 @@ class Demandware(object):
         Args:
 
         ``username``: String, customer username.
+
         ``password:``: String, customer password.
 
         Returns:

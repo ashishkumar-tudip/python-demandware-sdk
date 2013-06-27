@@ -185,14 +185,19 @@ class Demandware(object):
             request.add_data(json.dumps(self.__post))
         try:
             response = urllib2.urlopen(request)
-        except IOError, e:
-            self.__debug['response']['info'] = {'code': None, 'reason': e}
-        except urllib2.URLError, e:
-            self.__debug['response']['info'] = {'code': None, 'reason': e.reason}
-        except urllib2.HTTPError, e:
-            self.__debug['response']['info'] = {'code': e.code, 'reason': e.msg}
+        except urllib2.URLError as e:
+            errno = e.code if hasattr(e, 'code') else None
+            errstr = str(e.msg) if hasattr(e, 'msg') else (str(e.reason) if hasattr(e, 'reason') else None)
+            self.__debug['response']['info'] = {'code': errno, 'reason': errstr}
+        except urllib2.HTTPError as e:
+            errno = e.code if hasattr(e, 'code') else None
+            errstr = str(e.msg) if hasattr(e, 'msg') else (str(e.reason) if hasattr(e, 'reason') else None)
+            self.__debug['response']['info'] = {'code': errno, 'reason': errstr}
         else:
-            self.__debug['response']['info'] = {'code': response.getcode(), 'url': response.geturl()}
+            self.__debug['response']['info'] = {
+                'code': response.getcode(),
+                'url': response.geturl()
+            }
             self.__debug['response']['headers'] = dict(response.info())
 
             try:

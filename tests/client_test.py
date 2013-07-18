@@ -7,6 +7,7 @@ from unittest import TestCase
 from dw.client import Demandware
 from dw.objects import Object
 from dw.errors import ParameterMissedError, ParameterInvalidError
+from pprint import pprint
 
 ###############################################################
 # DemandwareTest
@@ -243,3 +244,15 @@ class DemandwareTest(TestCase):
 
         # Compare response
         self.assertEqual(hasattr(basket, 'product_total'), True)
+
+    def test_get_product_with_expanded_ok(self):
+        """Verify requests for single product with expanded options"""
+        conn = Demandware(self.SETTINGS_OK_VALID)
+        expand = [Demandware.EXPAND_PRICES, Demandware.EXPAND_IMAGES]
+        products = conn.get_product(self.products[0]['id'], expand=expand)
+
+        # Compare response
+        self.assertEqual(hasattr(products, 'name'), True)
+        # Compare attribute
+        self.assertEqual(products.name, self.products[0]['name'])
+        self.assert_('price' in products.__dict__)

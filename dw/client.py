@@ -53,6 +53,30 @@ class Demandware(object):
         'version',
     ))
 
+    EXPAND_AVAILABILITY = 'availability'
+    EXPAND_BUNDLED_PRODUCTS = 'bundled_products'
+    EXPAND_LINKS = 'links'
+    EXPAND_PROMOTIONS = 'promotions'
+    EXPAND_OPTIONS = 'options'
+    EXPAND_IMAGES = 'images'
+    EXPAND_PRICES = 'prices'
+    EXPAND_VARIATIONS = 'variations'
+    EXPAND_SET_PRODUCTS = 'set_products'
+
+
+
+    __expand = set((
+        EXPAND_AVAILABILITY,
+        EXPAND_BUNDLED_PRODUCTS,
+        EXPAND_LINKS,
+        EXPAND_PROMOTIONS,
+        EXPAND_OPTIONS,
+        EXPAND_IMAGES,
+        EXPAND_PRICES,
+        EXPAND_VARIATIONS,
+        EXPAND_SET_PRODUCTS,
+    ))
+
     def __init__(self, params=dict()):
         """
         Set a client to consume OCAPI services.
@@ -158,7 +182,7 @@ class Demandware(object):
             },
         }
 
-    def _call(self, uri):
+    def _call(self, uri, extra_params=None):
         """
         Execute a request and save last response data.
 
@@ -167,6 +191,9 @@ class Demandware(object):
         ``uri``: String that represents resource path.
 
         """
+        params = self.__get
+        if extra_params is not None:
+            params.update(extra_params)
         protocol = 'https' if self.__secure else 'http'
         url = '%s://%s/s/%s/dw/shop/%s/%s?&%s' % (
             protocol,
@@ -174,7 +201,7 @@ class Demandware(object):
             self.__site,
             self.__version,
             uri,
-            urllib.urlencode(self.__get),
+            urllib.urlencode(params),
         )
 
         self._debug()
@@ -352,7 +379,7 @@ class Demandware(object):
             'response': self.get_response(as_dict=True),
         }
 
-    def get_product(self, ids, arrayify=False):
+    def get_product(self, ids, arrayify=False, **kwargs):
         """
         Access products resource.
 
@@ -362,6 +389,9 @@ class Demandware(object):
 
         ``arrayify``: Boolean thats indicate if a single product should be returned in a List.
 
+        kwarg expand: expands the result document, which may include any of the __expand values:
+        https://documentation.demandware.com/display/DOC132/Product+resource
+
         Returns:
 
         Product as object if SKU exists otherwise None.
@@ -369,10 +399,17 @@ class Demandware(object):
         https://documentation.demandware.com/display/DOC131/Product+resource#Productresource-Getsingleproduct
 
         """
+
+        expand = kwargs.get('expand', None)
+        expand_query = None
+        if not isinstance(expand, (list, tuple)):
+                expand = [expand]
+        if all(k in self.__expand for k in expand):
+            expand_query = {'expand': '%s' % ''.join(str('%s,' % q) for q in expand)}
         if isinstance(ids, (list, tuple)):
             ids = '(%s)' % ''.join(str('%s,' % e) for e in ids)
 
-        self._call('products/%s' % ids)
+        self._call('products/%s' % ids, expand_query)
 
         if self.__last_call.response.info.code == httplib.OK:
             if hasattr(self.__last_call.response.body, 'data'):

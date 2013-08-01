@@ -35,6 +35,15 @@ Basic usage
     print product.name
 
 
+Client ID
+-------------
+
+How to set client_id parameter
+
+https://documentation.demandware.com/display/DOC133/Client+application+identification
+https://documentation.demandware.com/display/DOC133/Client+permissions
+
+
 Developers: Running tests
 -----------
 ::

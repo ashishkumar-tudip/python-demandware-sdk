@@ -235,7 +235,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'dw', u'Demandware Documentation',
-   u'Moises Brenes', 'dw', 'Python Demandware SDK provides access to the OCAPI services..',
+   u'Moises Brenes', 'dw', 'Python Demandware SDK provides access to the OCAPI services.',
    'Miscellaneous'),
 ]
 

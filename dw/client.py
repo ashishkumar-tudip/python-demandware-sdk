@@ -389,7 +389,7 @@ class Demandware(object):
 
         ``arrayify``: Boolean thats indicate if a single product should be returned in a List.
 
-        kwarg expand: expands the result document, which may include any of the __expand values:
+        ``kwarg expand``: expands the result document, which may include any of the __expand values:
         https://documentation.demandware.com/display/DOC132/Product+resource
 
         Returns:
@@ -399,7 +399,6 @@ class Demandware(object):
         https://documentation.demandware.com/display/DOC131/Product+resource#Productresource-Getsingleproduct
 
         """
-
         expand = kwargs.get('expand', None)
         expand_query = None
         if not isinstance(expand, (list, tuple)):
@@ -419,13 +418,16 @@ class Demandware(object):
             else:
                 return self.__last_call.response.body
 
-    def search_product(self, query):
+    def search_product(self, query, **kwargs):
         """
         Provides keyword and refinement search functionality for products.
 
         Args:
 
         ``query``: String, the query phrase to search for.
+
+        ``kwarg expand``: expands the result document, which may include any of the __expand values:
+        https://documentation.demandware.com/display/DOC132/Product+resource
 
         Returns:
 
@@ -434,8 +436,14 @@ class Demandware(object):
         https://documentation.demandware.com/display/DOC131/ProductSearch+resource#ProductSearchresource-SearchProducts
 
         """
+        expand = kwargs.get('expand', None)
+        expand_query = None
+        if not isinstance(expand, (list, tuple)):
+                expand = [expand]
+        if all(k in self.__expand for k in expand):
+            expand_query = {'expand': '%s' % ''.join(str('%s,' % q) for q in expand)}
         self.set_get('q', query)
-        self._call('product_search')
+        self._call('product_search', expand_query)
 
         if self.__last_call.response.info.code == httplib.OK:
             return self.__last_call.response.body

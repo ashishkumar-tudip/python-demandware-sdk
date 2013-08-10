@@ -246,7 +246,7 @@ class DemandwareTest(TestCase):
         self.assertEqual(hasattr(basket, 'product_total'), True)
 
     def test_get_product_with_expanded_ok(self):
-        """Verify requests for single product with expanded options"""
+        """Verify requests for single product with expanded options."""
         conn = Demandware(self.SETTINGS_OK_VALID)
         expand = [Demandware.EXPAND_PRICES, Demandware.EXPAND_IMAGES]
         products = conn.get_product(self.products[0]['id'], expand=expand)
@@ -256,3 +256,16 @@ class DemandwareTest(TestCase):
         # Compare attribute
         self.assertEqual(products.name, self.products[0]['name'])
         self.assert_('price' in products.__dict__)
+
+    def test_get_search_with_expanded_ok(self):
+        """Verify requests that search products with expanded options."""
+        conn = Demandware(self.SETTINGS_OK_VALID)
+        expand = [Demandware.EXPAND_PRICES, Demandware.EXPAND_IMAGES]
+        search = conn.search_product(self.search[0]['query'], expand=expand)
+
+        # Compare response
+        self.assertEqual(hasattr(search, 'hits'), True)
+        self.assertTrue(isinstance(search.hits, list))
+        self.assertNotEqual(len(search.hits), 0)
+        # Compare attribute
+        self.assert_('price' in search.hits[0])

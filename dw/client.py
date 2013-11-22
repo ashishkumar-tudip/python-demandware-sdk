@@ -406,7 +406,9 @@ class Demandware(object):
         if all(k in self.__expand for k in expand):
             expand_query = {'expand': '%s' % ''.join(str('%s,' % q) for q in expand)}
         if isinstance(ids, (list, tuple)):
-            ids = '(%s)' % ''.join(str('%s,' % e) for e in ids)
+            ids = '(%s)' % ''.join(str('%s,' % urllib.quote_plus(e)) for e in ids)
+        else:
+            ids = urllib.quote_plus(ids)
 
         self._call('products/%s' % ids, expand_query)
 
